@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <title>Yo!</title>
+
+</head>
+
+<body>
+    <script>
+        console.debug("Script loading.");
+
+        function getQuote() {
+            console.debug("started method");
+            var request = new XMLHttpRequest();
+            request.responseType = 'text';
+            request.onload = function() {
+                console.debug("Inside onload");
+                if (request.readyState === request.DONE) {
+                    if (request.status === 200) {
+                        console.log(request.response);
+                        const response = JSON.parse(request.responseText);
+                        document.getElementById("quote").innerHTML = "<q>" + response[0] + "</q><p> &emsp; -- " + response[1] + "</p>";
+                    }
+                }
+            }
+            request.open('GET', '/get-quote', true);
+            request.send();
+            console.debug("Request sent.")
+        }
+        console.debug("Script loaded.");
+    </script>
+    <button value="Get Quote" onclick="getQuote()">Get Quote</button>
+    <br></br>
+    <div id="quote">
+        My quote will appear here!
+    </div>
+</body>
+
+</html>
